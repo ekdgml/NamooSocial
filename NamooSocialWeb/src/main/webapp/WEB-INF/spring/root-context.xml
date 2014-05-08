@@ -22,12 +22,12 @@
 	
 	<jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/MySQLDS" />
 	
-	<!-- DataSource 
+	<!-- DataSource
 	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
 		<property name="driverClassName" value="${database.driver}" />
 		<property name="username" value="${database.username}" />
 		<property name="password" value="${database.password}" />
 		<property name="url" value="${database.url}" />
 		<property name="maxTotal" value="${database.maxConnection}" />
-	</bean>-->
+	</bean>--> 
 </beans>

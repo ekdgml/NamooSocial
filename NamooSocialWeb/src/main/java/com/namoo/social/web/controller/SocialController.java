@@ -48,13 +48,14 @@ public class SocialController {
 		SessionManager manager = new SessionManager(req);
 		String userId = manager.getLoginId();
 		
-		List<Message> messages = msgService.showTimeLine(userId);
 		User user = userService.findUser(userId);
+		List<Message> messages = msgService.showTimeLine(userId);
 		List<User> notFollowings = userService.findAllUserExceptFollowings(userId);
 		
 		map.put("messages", messages);
 		map.put("user", user);
 		map.put("notFollowings", notFollowings);
+		
 		return new ModelAndView("/main", map);
 	}
 	
