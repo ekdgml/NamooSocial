@@ -11,6 +11,7 @@
 <meta name="generator" content="Bootply" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <%@ include file="/WEB-INF/views/common/common.jsp"%>
+<script type="text/javascript" src="${ctx}/resources/js/myMessages.js"></script>
 <style type="text/css">
 @import url('http://fonts.googleapis.com/css?family=Open+Sans:300,400')
 </style>
@@ -93,18 +94,7 @@
 						</div>
 
 						<hr>
-						<h3>팔로우 추천</h3>
-						<c:forEach var="notFollowing" items="${notFollowings}">
-							<h5>
-								<i class="glyphicon glyphicon-user"></i>
-							</h5>&nbsp;
-							<p>
-							<h4>${notFollowing.name}</h4>&nbsp;<h5>${notFollowing.userId}</h5>
-							</p>
-							<input type="button"
-								onclick="location.href='${ctx}/follow/${notFollowing.userId}'"
-								value="팔로우" class="btn btn-default" />
-						</c:forEach>
+						<h3 id="recommendFollowing">팔로우 추천</h3>
 						<hr>
 					</div>
 				</div>
@@ -138,21 +128,7 @@
 					<div class="panel-heading"
 						style="background-color: #111; color: #fff;">Top Stories</div>
 					<div class="panel-body">
-						<c:forEach var="message" items="${messages}">
-							<div class="row">
-								<div class="col-md-8">
-									<!--<img src="/assets/example/bg1.jpg" class="img-responsive">-->
-									<h4>${message.writer.name}</h4>
-									&nbsp;
-									<h5>${message.writer.userId}&nbsp;${message.reg_dt}</h5>
-									<p>${message.contents}</p>
-									<br>
-									<br>
-									<button class="btn btn-default">More</button>
-								</div>
-							</div>
-							<hr>
-						</c:forEach>
+						<p id="myMessages"></p>
 					</div>
 					<!--/panel-body-->
 						

@@ -13,3 +13,9 @@
 
 <script src="${ctx}/resources/js/jquery.min.js"></script>
 <script src="${ctx}/resources/js/bootstrap.min.js"></script>
+
+
+<script type="test/javascript">
+	var nsjs = nsjs || {};
+	nsjs.ctx = "${ctx}";
+</script>

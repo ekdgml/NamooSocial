@@ -11,6 +11,7 @@
 <meta name="generator" content="Bootply" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <%@ include file="/WEB-INF/views/common/common.jsp"%>
+<script type="text/javascript" src="${ctx}/resources/js/myInfo.js"></script>
 <style type="text/css">
 /* custom theme + Bootstrap resets */
 @import url('http://fonts.googleapis.com/css?family=Open+Sans:300,400')
@@ -101,18 +102,7 @@
 						</div>
 
 						<hr>
-						<h3>팔로우 추천</h3>
-						<c:forEach var="notFollowing" items="${notFollowings}">
-							<h5>
-								<i class="glyphicon glyphicon-user"></i>
-							</h5>&nbsp;
-							<p>
-							<h4>${notFollowing.name}</h4>&nbsp;<h5>${notFollowing.userId}</h5>
-							</p>
-							<input type="button"
-								onclick="location.href='${ctx}/follow/${notFollowing.userId}'"
-								value="팔로우" class="btn btn-default" />
-						</c:forEach>
+						<h3 id="recommendFollowing">팔로우 추천</h3>
 						<hr>
 					</div>
 				</div>

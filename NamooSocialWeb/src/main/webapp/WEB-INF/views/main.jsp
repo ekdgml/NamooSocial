@@ -9,9 +9,9 @@
 <meta charset="utf-8">
 <title>NamooSocial</title>
 <meta name="generator" content="Bootply" />
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <%@ include file="/WEB-INF/views/common/common.jsp"%>
+<script type="text/javascript" src="${ctx}/resources/js/main.js"></script>
 <style type="text/css">
 @import url('http://fonts.googleapis.com/css?family=Open+Sans:300,400');
 
@@ -31,10 +31,8 @@
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
-					<li><a href="${ctx}/main"><i
-							class="glyphicon glyphicon-home"></i></a></li>
-					<li><a href="${ctx}/myMessages"><i
-							class="glyphicon glyphicon-user"></i></a></li>
+					<li><a href="${ctx}/main"><i class="glyphicon glyphicon-home"></i></a></li>
+					<li><a href="${ctx}/myMessages"><i class="glyphicon glyphicon-user"></i></a></li>
 				</ul>
 				<ul class="nav pull-right navbar-nav">
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
@@ -97,7 +95,7 @@
 						</div>
 
 						<hr>
-						<h3>팔로우 추천</h3>
+						<h3 id="recommendFollowing">팔로우 추천</h3>
 						<!--  
 						<c:forEach var="notFollowing" items="${notFollowings}">
 							<i class="glyphicon glyphicon-user"></i><p>${notFollowing.name}&nbsp;&nbsp;&nbsp;${notFollowing.userId}</p>
@@ -136,6 +134,7 @@
 					<div class="panel-heading"
 						style="background-color: #111; color: #fff;">Top Stories</div>
 					<div class="panel-body">
+					<p id="allMessages"></p>
 					<!--  
 						<c:forEach var="message" items="${messages}">
 							<div class="row">

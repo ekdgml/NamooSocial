@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.namoo.social.domain.ImageFile;
@@ -44,6 +45,16 @@ public class SocialController {
 	@RequestMapping(value="/main", method=RequestMethod.GET)
 	public ModelAndView main(HttpServletRequest req) {
 		//
+		SessionManager manager = new SessionManager(req);
+		User user = userService.findUser(manager.getLoginId());
+		
+		return new ModelAndView("/main", "user", user);
+	}
+	
+	@RequestMapping(value="/mainList", method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> mainList(HttpServletRequest req) {
+		//
 		Map<String, Object> map = new HashMap<String, Object>();
 		SessionManager manager = new SessionManager(req);
 		String userId = manager.getLoginId();
@@ -56,7 +67,7 @@ public class SocialController {
 		map.put("user", user);
 		map.put("notFollowings", notFollowings);
 		
-		return new ModelAndView("/main", map);
+		return map;
 	}
 	
 	@RequestMapping(value="/main/image", method=RequestMethod.GET)
@@ -93,17 +104,27 @@ public class SocialController {
 	@RequestMapping(value="/followings", method=RequestMethod.GET)
 	public ModelAndView followingsList(HttpServletRequest req) {
 		//
+		SessionManager manager = new SessionManager(req);
+		User user = userService.findUser(manager.getLoginId());
+		
+		return new ModelAndView("/followings", "user", user);
+	}
+	
+	@RequestMapping(value="/followings2", method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> followings(HttpServletRequest req) {
+		//
 		Map<String, Object> map = new HashMap<String, Object>();
+
 		SessionManager manager = new SessionManager(req);
 		String userId = manager.getLoginId();
 		List<User> followings = userService.findAllFollowings(userId);
-		User user = userService.findUser(userId);
 		List<User> notFollowings = userService.findAllUserExceptFollowings(userId);
 		
 		map.put("followings", followings);
-		map.put("user", user);
 		map.put("notFollowings", notFollowings);
-		return new ModelAndView("/followings", map);
+		
+		return map;
 	}
 	
 	@RequestMapping(value="/unfollow/{whom}", method=RequestMethod.GET)
@@ -117,19 +138,28 @@ public class SocialController {
 	@RequestMapping(value="/myMessages", method=RequestMethod.GET)
 	public ModelAndView myMessageList(HttpServletRequest req) {
 		//
+		SessionManager manager = new SessionManager(req);
+		
+		User user = userService.findUser(manager.getLoginId());
+		
+		return new ModelAndView("/myMessages", "user", user);
+	}
+	
+	@RequestMapping(value="/myMessagesList", method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> myMessages(HttpServletRequest req) {
+		//
 		Map<String, Object> map = new HashMap<String, Object>();
 		SessionManager manager = new SessionManager(req);
 		String userId = manager.getLoginId();
 		
-		User user = userService.findUser(userId);
 		List<User> notFollowings = userService.findAllUserExceptFollowings(userId);
 		List<Message> messages = msgService.findAllMessages(userId);
 		
 		map.put("messages", messages);
-		map.put("user", user);
 		map.put("notFollowings", notFollowings);
 		
-		return new ModelAndView("/myMessages", map);
+		return map;
 	}
 	
 	@RequestMapping(value="/posting", method=RequestMethod.GET)
