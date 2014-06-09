@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+<mapper namespace="com.namoo.social.dao.sqlmap.mapper.MessageMapper">
+
+	<resultMap type="Message" id="result-message">
+		<id property="msgId" column="msg_id" javaType="int"/>
+		<result property="contents" column="contents" javaType="string"/>
+		<result property="reg_dt" column="reg_dt" javaType="Date"/>
+		
+		<association property="writer" 
+		    select="com.namoo.social.dao.sqlmap.mapper.UserMapper.selectUser" 
+		    column="writer_id" />
+	</resultMap>
+	
+	<select id="selectAllMessages" parameterType="string" resultMap="result-message">
+		SELECT a.msg_id
+			, a.contents
+			, a.writer_id
+			, a.reg_dt
+			, b.name 
+		FROM message_tb a
+		INNER JOIN user_tb b ON a.writer_id = b.user_id 
+		WHERE a.writer_id = #{userId} 
+		ORDER BY a.msg_id DESC
+	</select>
+	
+	<select id="selectMessage" parameterType="int" resultMap="result-message">
+		SELECT a.msg_id
+			, a.contents
+			, a.writer_id
+			, a.reg_dt
+			, b.name 
+		FROM message_tb a
+		INNER JOIN user_tb b ON a.writer_id = b.user_id 
+		WHERE a.msg_id = #{msgId} 
+		ORDER BY a.msg_id DESC
+	</select>
+	
+	<insert id="insertMessage" parameterType="Message" useGeneratedKeys="true" keyProperty="msgId">
+		INSERT INTO message_tb(
+					contents
+					, writer_id
+					, reg_dt
+				) VALUES(
+					#{contents}
+					, #{writer.userId}
+					, sysDate())
+	</insert>
+	
+	<update id="updateMessage" parameterType="Message">
+		UPDATE message_tb 
+		<set>
+			<if test="contents != null">contents = #{contents}, reg_dt = sysDate()</if>
+		</set>
+		WHERE msg_id = #{msgId}
+	</update>
+	
+	<delete id="deleteMessage" parameterType="int">
+		DELETE FROM message_tb WHERE msg_id = #{msgId}
+	</delete>
+	
+	<select id="selectTimeLine" parameterType="string" resultMap="result-message">
+		SELECT a.msg_id
+			, a.contents
+			, a.writer_id
+			, a.reg_dt
+			, b.name 
+		FROM message_tb a
+		INNER JOIN user_tb b ON a.writer_id = b.user_id 
+		WHERE writer_id =#{userId}
+		OR writer_id IN (SELECT whom FROM usertouser_tb WHERE who = #{userId}) 
+		ORDER BY a.msg_id DESC
+	</select>
+</mapper>

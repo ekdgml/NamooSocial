@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+<mapper namespace="com.namoo.social.dao.sqlmap.mapper.UserMapper">
+
+<resultMap type="User" id="result-user">
+	<id     property="userId"   column="user_id"  javaType="string"/>
+	<result property="name"     column="name"     javaType="string" />
+    <result property="email"    column="email"    javaType="string" />
+    <result property="password" column="password" javaType="string" />
+    
+    <association property="profileImage" javaType="ImageFile">
+    	<result property="contentType" column="img_type" javaType="string"/>
+    	<result property="fileName"    column="img_file" javaType="string"/>
+    </association>
+</resultMap>
+
+<select id="selectAllUsers" resultMap="result-user">
+	SELECT user_id
+		, name
+		, email
+		, password
+		, img_type
+		, img_file 
+	FROM user_tb
+</select>
+
+<select id="selectUser" parameterType="string" resultMap="result-user">
+	SELECT user_id
+		, name
+		, email
+		, password
+		, img_type
+		, img_file 
+	FROM user_tb
+	WHERE user_id = #{userId}
+</select>
+
+<insert id="insertUser" parameterType="User">
+	INSERT INTO user_tb(
+			user_id
+			, name
+			, email
+			, password
+			, img_type
+			, img_file
+		) VALUES(
+			#{userId}
+			, #{name}
+			, #{email}
+			, #{password}
+			, #{profileImage.contentType}
+			, #{profileImage.fileName}
+		)
+</insert>
+
+<update id="updateUser" parameterType="User">
+	UPDATE user_tb 
+	<set>
+        <if test="name != null">name = #{name},</if>
+        <if test="email != null">email = #{email},</if>
+        <if test="password != null">password = #{password}</if>
+    </set>
+	 WHERE user_id = #{userId}
+</update>
+
+<delete id="deleteUser" parameterType="string">
+	DELETE FROM user_tb WHERE user_id = #{userId}
+</delete>
+
+
+<!-- Relationship -->
+
+<select id="selectFollowings" parameterType="string" resultMap="result-user">
+	SELECT a.whom AS user_id
+		, b.name 
+	FROM usertouser_tb a
+	INNER JOIN user_tb b ON a.whom = b.user_id 
+	WHERE a.who = #{userId} 
+	ORDER BY a.whom
+</select>
+
+<select id="selectFollowers" parameterType="string" resultMap="result-user">
+	SELECT a.who AS user_id
+		, b.name 
+	FROM usertouser_tb a
+	INNER JOIN user_tb b ON a.who = b.user_id 
+	WHERE a.whom = #{userId}
+	ORDER BY a.who
+</select>
+
+<insert id="insertFollowing" parameterType="map">
+	INSERT INTO usertouser_tb(
+					who
+					, whom
+				) VALUES(
+					#{who}
+					, #{whom}
+				)
+</insert>
+
+<delete id="deleteFollowing" parameterType="map">
+	DELETE FROM usertouser_tb WHERE who = #{who} AND whom = #{whom}
+</delete>
+
+</mapper>
