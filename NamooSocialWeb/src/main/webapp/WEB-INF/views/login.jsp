@@ -9,7 +9,6 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <%@ include file="/WEB-INF/views/common/common.jsp"%>
-<script type="text/javascript" src="${ctx}/resources/js/login.js"></script>
 <title>로그인하기</title>
 <style type="text/css">
 .background {
@@ -21,7 +20,7 @@ background-position: 100% 100%;
 
 <body class="background">
 	<div class="container">
-			<form class="form-signin">
+			<form class="form-signin" action="${ctx}/login" method="post">
 				<input type="text" class="form-control" placeholder="User Id" id="userId" autofocus> 
 				<input type="password" class="form-control" placeholder="Password" id="password">
 				<h5 id="show"></h5>

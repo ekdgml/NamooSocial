@@ -18,7 +18,6 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
@@ -49,8 +48,7 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/login", method=RequestMethod.POST)
-	@ResponseBody
-	public boolean login(HttpServletRequest req, String loginId,  String password) {
+	public boolean login(HttpServletRequest req, @RequestParam("loginId") String loginId,  @RequestParam("password") String password) {
 		//
 		SessionManager manager = new SessionManager(req);
 		if (manager.login(loginId, password)) {

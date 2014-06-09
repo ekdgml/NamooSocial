@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.namoo.social.dao.sqlmap.mapper.MessageMapper">
+	<resultMap type="Message" id="result-message">
+		<id     property="id"       column="msg_id"    javaType="int"/>
+        <result property="contents" column="contents"  javaType="string" />
+        <result property="regDate"  column="reg_dt"    javaType="date" />
+        
+        <association property="writer" 
+		    select="com.namoo.social.dao.sqlmap.mapper.UserMapper.selectUser" 
+		    column="user_id" />
+	</resultMap>
+
+ <select id="selectMessage" parameterType="int" resultMap="result-message">
+ 	SELECT a.msg_id
+ 		, a.contents
+ 		, a.writer_id
+ 		, a.reg_dt
+ 		, b.user_nm 
+	FROM message_tb a 
+	INNER JOIN user_tb b ON a.writer_id = b.user_id 
+	WHERE a.msg_id = #{msgId}
+ </select>
+ 
+ <select id="selectAllMessages" parameterType="string" resultMap="result-message">
+ 	SELECT a.msg_id
+ 		, a.contents
+ 		, a.writer_id
+ 		, a.reg_dt
+ 		, b.user_nm 
+	FROM message_tb a
+	INNER JOIN user_tb b ON a.writer_id = b.user_id 
+	WHERE a.writer_id = #{userId} 
+	ORDER BY a.msg_id DESC
+ </select>
+ 
+ <select id="selectRelatedMessages" parameterType="string" resultMap="result-message">
+	SELECT a.msg_id
+		, a.contents
+		, a.writer_id
+		, a.reg_dt
+		, b.user_nm 
+		FROM message_tb a
+		INNER JOIN user_tb b ON a.writer_id = b.user_id
+		WHERE writer_id = #{userId}
+		OR writer_id IN (SELECT to_id FROM usertouser_tb
+		WHERE from_id = #{userId}) 
+		ORDER BY a.msg_id DESC 
+</select>
+ 
+<insert id="insertMessage" parameterType="Message" useGeneratedKeys="true" keyProperty="id">
+	INSERT INTO message_tb (
+			contents
+			, writer_id
+			, reg_dt
+		) VALUES (
+			#{contents}
+			, #{writer.userId}
+			, sysDate()
+		)
+</insert> 
+
+ <update id="updateMessage" parameterType="Message">
+ 	UPDATE message_tb
+        <set>
+            <if test="contents != null">contents = #{contents},</if>
+            <if test="regDate != null">reg_dt = sysDate()</if>
+        </set>
+        WHERE msg_id = #{id}
+ </update>
+ 
+ <delete id="deleteMessage" parameterType="int">
+ 	DELETE FROM message_tb WHERE msg_id = #{id}
+ </delete>
+ 
+ <delete id="deleteAllMessagesByUserId" parameterType="string">
+ 	DELETE FROM message_tb WHERE writer_id = #{userId}
+ </delete>
+</mapper>

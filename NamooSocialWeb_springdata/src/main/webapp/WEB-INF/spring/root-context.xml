@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	
+	<!-- 
+		DataSource JNDI Lookup
+	
+		context.xml에 DataSource 설정을 아래와 같이 합니다.
+		<Resource name="jdbc/MySQLDS" auth="Container"
+		     type="javax.sql.DataSource" driverClassName="com.mysql.jdbc.Driver"
+		     url="jdbc:mysql://localhost:3306/namoosocialdb"
+		     username="namoouser" password="namoouser" maxActive="20" maxIdle="10"
+		     maxWait="-1" />
+	-->
+	<jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/MySQLDS" />
+	
+<!-- 
+	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+		<property name="driverClassName" value="${database.driver}" />
+		<property name="username" value="${database.username}" />
+		<property name="password" value="${database.password}" />
+		<property name="url" value="${database.url}" />
+		<property name="maxTotal" value="${database.maxConnection}" />
+	</bean>
+-->
+	<!-- component scan DAO & Service -->
+	<context:component-scan base-package="com.namoo.social.dao.sqlmap" />
+	<context:component-scan base-package="com.namoo.social.service" />
+
+	 <!-- sqlSessionFactory bean --> 
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"> 
+        <property name="dataSource" ref="dataSource" /> 
+        <property name="configLocation" value="classpath:/com/namoo/social/dao/sqlmap/mybatis-config.xml" /> 
+    </bean>
+
+	<!-- mapper scan bean -->    
+	<bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer"> 
+	    <property name = "basePackage" value="com.namoo.social.dao.sqlmap.mapper" /> 
+	</bean>
+</beans>

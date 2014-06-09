@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+<mapper namespace="com.namoo.social.dao.sqlmap.mapper.UserMapper">
+	
+	<!-- ResultMap For User -->
+	<resultMap type="User" id="result-user">
+		<id     property="userId"   column="user_id"  javaType="string"/>
+        <result property="name"     column="user_nm"  javaType="string" />
+        <result property="email"    column="email"    javaType="string" />
+        <result property="password" column="password" javaType="string" />
+	</resultMap>
+
+	<select id="selectUser" parameterType="string" resultMap="result-user">
+		SELECT user_id
+			, user_nm
+			, email
+			, password
+		FROM user_tb
+		WHERE user_id = #{userId}
+	</select>
+	
+	<select id="selectAllUsers" resultMap="result-user">
+		SELECT user_id
+			, user_nm
+			, email
+			, password
+		FROM user_tb
+	</select>
+	
+	<insert id="insertUser" parameterType="User">
+		INSERT INTO user_tb (
+				user_id
+				, user_nm
+				, email
+				, password
+		) VALUES (
+				#{userId}
+				, #{name}
+				, #{email}
+				, #{password}
+		)
+	</insert>
+	
+	<update id="updateUser" parameterType="User">
+		UPDATE user_tb
+        <set>
+            <if test="name != null">user_nm = #{name},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="password != null">password = #{password}</if>
+        </set>
+        WHERE
+        	user_id = #{userId}
+	</update>
+	
+	<delete id="deleteUser" parameterType="string">
+		DELETE FROM user_tb WHERE user_id = #{userId}
+	</delete>
+	
+	<!-- Relationship Mapper -->
+	
+	<insert id="insertRelationship" parameterType="map">
+		INSERT INTO usertouser_tb (
+				from_id
+				, to_id
+		) VALUES (
+				#{fromId}
+				, #{toId}
+		)
+	</insert>
+	
+	<delete id="deleteRelationship" parameterType="map">
+		DELETE FROM usertouser_tb WHERE from_id = #{fromId} AND to_id = #{toId}
+	</delete>
+	
+	<delete id="deleteAllRelationship" parameterType="string">
+		DELETE FROM usertouser_tb WHERE from_id = #{fromId}
+	</delete>
+	
+	<select id="selectFollowings" parameterType="string" resultMap="result-user">
+		SELECT a.to_id AS userId
+			, b.user_nm 
+		FROM usertouser_tb a 
+		INNER JOIN user_tb b ON a.to_id = b.user_id 
+		WHERE a.from_id = #{userId} 
+		ORDER BY a.to_id
+	</select>
+	
+	<select id="selectFollowers" parameterType="string" resultMap="result-user">
+		SELECT a.from_id AS userId
+			, b.user_nm
+			FROM usertouser_tb a 
+			INNER JOIN user_tb b ON a.from_id = b.user_id 
+			WHERE a.to_id = #{userId}
+	</select>
+</mapper>
