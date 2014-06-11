@@ -1,0 +1,126 @@
+{
+	"users" : [
+		{
+			"_id" : "hyunohkim",
+			"name" : "김현오",
+			"email" : "hyunohkim@nextree.co.kr",
+			"password" : "1234",
+			"followings" : [
+				{
+					"_id" : "gdhong",
+					"name" : "홍길동",
+					"email" : "gdhong@nextree.co.kr"
+				}				
+			],
+			"followers" : [
+				{
+					"_id" : "gdhong",
+					"name" : "홍길동",
+					"email" : "gdhong@nextree.co.kr"
+				}
+			]
+		},
+		{
+			"_id" : "gdhong",
+			"name" : "홍길동",
+			"email" : "gdhong@nextree.co.kr",
+			"password" : "1234",
+			"followings" : [
+				{
+					"_id" : "hyunohkim",
+					"name" : "김현오",
+					"email" : "hyunohkim@nextree.co.kr"
+				}				
+			],
+			"followers" : [
+				{
+					"_id" : "hyunohkim",
+					"name" : "김현오",
+					"email" : "hyunohkim@nextree.co.kr"
+				}
+			]
+		}
+	],
+	"messages" : [
+		{
+			"_id" : "1",
+			"contents" : "첫번째 글입니다.",
+			"writer" : 
+			{
+				"_id" : "hyunohkim",
+				"name" : "김현오",
+				"email" : "hyunohkim@nextree.co.kr"				
+			},
+			"regDate" : {"$date" : "2014-04-23 20:11:11"}
+		},
+		{
+			"_id" : "2",
+			"contents" : "두번째 글입니다.",
+			"writer" : 
+			{
+				"_id" : "hyunohkim",
+				"name" : "김현오",
+				"email" : "hyunohkim@nextree.co.kr"				
+			},
+			"regDate" : {"$date" : "2014-04-23 20:42:11"}
+		},
+		{
+			"_id" : "3",
+			"contents" : "길동이의 첫번째 트윗.",
+			"writer" : 
+			{
+				"_id" : "gdhong",
+				"name" : "홍길동",
+				"email" : "gdhong@nextree.co.kr"				
+			},
+			"regDate" : {"$date" : "2014-04-23 20:55:12"}
+		}
+	],
+	"timelines" : [
+		{
+			"id" : "1",
+			"ownerId" : "hyunohkim",
+			"message" : {
+				"_id" : "1",
+				"contents" : "첫번째 글입니다.",
+				"writer" : 
+				{
+					"_id" : "hyunohkim",
+					"name" : "김현오",
+					"email" : "hyunohkim@nextree.co.kr"				
+				},
+				"regDate" : {"$date" : "2014-04-23 20:11:11"}
+			}
+		},
+		{
+			"id" : "2",
+			"ownerId" : "hyunohkim",
+			"message" : {
+				"_id" : "2",
+				"contents" : "두번째 글입니다.",
+				"writer" : 
+				{
+					"_id" : "hyunohkim",
+					"name" : "김현오",
+					"email" : "hyunohkim@nextree.co.kr"				
+				},
+				"regDate" : {"$date" : "2014-04-23 20:42:11"}
+			}
+		},
+		{
+			"id" : "3",
+			"ownerId" : "hyunohkim",
+			"message" : {
+				"_id" : "3",
+				"contents" : "길동이의 첫번째 트윗.",
+				"writer" : 
+				{
+					"_id" : "gdhong",
+					"name" : "홍길동",
+					"email" : "gdhong@nextree.co.kr"				
+				},
+				"regDate" : {"$date" : "2014-04-23 20:55:12"}
+			}
+		}
+	]
+}

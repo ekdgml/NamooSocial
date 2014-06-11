@@ -1,0 +1,69 @@
+{
+	"users" : [
+		{
+			"_id" : "hyunohkim",
+			"name" : "김현오",
+			"email" : "hyunohkim@nextree.co.kr",
+			"password" : "1234",
+			"followings" : [
+				{
+					"_id" : "gdhong",
+					"name" : "홍길동",
+					"email" : "gdhong@nextree.co.kr"
+				},
+				{
+					"_id" : "yunakim",
+					"name" : "김연아",
+					"email" : "yunakim@yuna.com"
+				}
+				
+			],
+			"followers" : [
+				{
+					"_id" : "gdhong",
+					"name" : "홍길동",
+					"email" : "gdhong@nextree.co.kr"
+				},
+				{
+					"_id" : "yunakim",
+					"name" : "김연아",
+					"email" : "yunakim@yuna.com"
+				}
+			]
+		},
+		{
+			"_id" : "gdhong",
+			"name" : "홍길동",
+			"email" : "gdhong@nextree.co.kr",
+			"password" : "1234"
+		},
+		{
+			"_id" : "yunakim",
+			"name" : "김연아",
+			"email" : "yunakim@yuna.com",
+			"password" : "1234",
+			"followings" : [
+				{
+					"_id" : "gdhong",
+					"name" : "홍길동",
+					"email" : "gdhong@nextree.co.kr"
+				},
+				{
+					"_id" : "wntjdLee",
+					"name" : "이주성",
+					"email" : "wntjd1211@nate.com"
+				}
+			],
+			"followers" : [
+				{
+					"_id" : "hyunohkim",
+					"name" : "김현오",
+					"email" : "hyunohkim@nextree.co.kr",
+					"password" : "1234"
+				}
+			]
+		}
+	]
+}
+	
+	
